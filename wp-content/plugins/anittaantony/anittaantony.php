@@ -33,8 +33,14 @@ function wp_rest_api_function( $data ) {
      
       $wp_rest_api_infos = array();
       $wp_rest_api_infos['site_name'] = get_bloginfo();
-      $wp_rest_api_infos['site_url']  = get_site_url();
-      $wp_rest_api_infos['wp_base_absolute_path']  =set_url_scheme( get_option( 'home' ), 'http' ); 
+      $wp_rest_api_infos['site_url']  = get_site_url(); 
+      $substr=substr($wp_rest_api_infos['site_url'], 0, 5);/*checking whether its is http or https*/
+      if($substr=="https"){
+        $url="https";
+      }else{
+        $url="http";
+      }
+      $wp_rest_api_infos['wp_base_absolute_path']  =set_url_scheme( get_option( 'home' ), $url ); 
       $wp_rest_api_infos['wp_content_absolute_path']  = content_url();
       $base = dirname(__FILE__);
       $fi = new FilesystemIterator($base, FilesystemIterator::SKIP_DOTS);
